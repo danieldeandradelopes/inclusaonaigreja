@@ -12,3 +12,6 @@ Atividades Práticas para Alunos com Deficiência Intelectual: Guia Completo
 https://www.youtube.com/watch?v=EbNNoHDlFEg
 
 ---
+
+Dicas para adaptar atividades para alunos com deficiência intelectual?
+https://www.youtube.com/watch?v=jcXybEOpAxE
