@@ -7,3 +7,8 @@ Como se aproximar de crianças autistas? [3 DICAS PRÁTICAS]
 https://www.youtube.com/watch?v=YUFHfgJeiIQ
 
 ---
+
+Atividades Práticas para Alunos com Deficiência Intelectual: Guia Completo
+https://www.youtube.com/watch?v=EbNNoHDlFEg
+
+---
