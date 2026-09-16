@@ -65,11 +65,11 @@
     .blob-bl { width: 36vmin; height: 36vmin; bottom: -16vmin; left: -12vmin; }
     .slide > *:not(.blob) { position: relative; z-index: 1; }
 
-    h1, h2, h3 { font-family: var(--display); line-height: 1.15; color: var(--ink); }
-    h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); color: var(--accent-deep); }
-    h2 { font-size: clamp(1.5rem, 3.2vw, 2.35rem); margin-bottom: .5rem; }
-    h3 { font-size: clamp(1.05rem, 2vw, 1.3rem); margin-bottom: .35rem; }
-    p, li { font-size: clamp(.95rem, 1.55vw, 1.12rem); line-height: 1.5; color: var(--muted); }
+    h1, h2, h3 { font-family: var(--display); line-height: 1.12; color: var(--ink); }
+    h1 { font-size: clamp(2.5rem, 5.6vw, 3.9rem); color: var(--accent-deep); }
+    h2 { font-size: clamp(1.75rem, 3.7vw, 2.7rem); margin-bottom: .45rem; }
+    h3 { font-size: clamp(1.2rem, 2.35vw, 1.5rem); margin-bottom: .3rem; }
+    p, li { font-size: clamp(1.12rem, 2vw, 1.38rem); line-height: 1.42; color: var(--muted); }
     .accent-line {
       width: 48px; height: 3px; background: var(--accent); border-radius: 2px;
       margin: .55rem auto 1rem;
@@ -80,11 +80,11 @@
     .focus {
       flex: 1; display: flex; flex-direction: column;
       align-items: center; justify-content: center; text-align: center;
-      max-width: 42rem; margin: 0 auto; width: 100%;
+      max-width: 48rem; margin: 0 auto; width: 100%;
     }
     .focus .illus {
-      width: min(42%, 280px); aspect-ratio: 1; border-radius: 24px;
-      object-fit: cover; margin-bottom: 1.1rem; box-shadow: var(--shadow);
+      width: min(34%, 220px); aspect-ratio: 1; border-radius: 24px;
+      object-fit: cover; margin-bottom: .9rem; box-shadow: var(--shadow);
     }
     .focus .icon-wrap {
       width: 56px; height: 56px; border-radius: 50%; background: var(--accent-soft);
@@ -92,7 +92,7 @@
     }
     .focus .icon-wrap img { width: 28px; height: 28px; }
     .kicker {
-      font-size: .8rem; font-weight: 700; letter-spacing: .14em;
+      font-size: .92rem; font-weight: 700; letter-spacing: .14em;
       text-transform: uppercase; color: var(--accent); margin-bottom: .35rem;
     }
 
@@ -102,13 +102,13 @@
       gap: clamp(1.2rem, 3vw, 2.5rem); align-items: center; min-height: 0;
     }
     .split .pic {
-      width: 100%; height: min(100%, 52vh); max-height: 420px;
+      width: 100%; height: min(100%, 48vh); max-height: 360px;
       border-radius: var(--radius); object-fit: cover; box-shadow: var(--shadow);
     }
     .split .copy { display: flex; flex-direction: column; justify-content: center; }
 
     /* lists */
-    ul.clean { list-style: none; text-align: left; width: 100%; display: flex; flex-direction: column; gap: .55rem; }
+    ul.clean { list-style: none; text-align: left; width: 100%; display: flex; flex-direction: column; gap: .45rem; }
     ul.clean li { position: relative; padding-left: 1.15rem; }
     ul.clean li::before {
       content: ""; position: absolute; left: 0; top: .55em;
@@ -136,7 +136,7 @@
     .chip-row { display: flex; flex-wrap: wrap; gap: .4rem; justify-content: center; margin-top: .7rem; }
     .chip {
       background: var(--accent-soft); color: var(--accent-deep);
-      border-radius: 999px; padding: .28rem .7rem; font-size: .82rem; font-weight: 600;
+      border-radius: 999px; padding: .32rem .75rem; font-size: .95rem; font-weight: 600;
     }
 
     .quote-grid {
@@ -153,7 +153,7 @@
     }
     .quote p {
       position: relative; z-index: 1; margin: .9rem; color: #fff;
-      font-weight: 600; font-size: clamp(.8rem, 1.25vw, .98rem); line-height: 1.35;
+      font-weight: 600; font-size: clamp(1.05rem, 1.7vw, 1.28rem); line-height: 1.35;
     }
 
     .kit {
@@ -162,7 +162,7 @@
     }
     .kit div {
       background: var(--accent-soft); color: var(--accent-deep); border-radius: 14px;
-      padding: .65rem .45rem; font-size: clamp(.68rem, 1.05vw, .82rem);
+      padding: .65rem .45rem; font-size: clamp(.82rem, 1.3vw, 1rem);
       font-weight: 600; text-align: center; line-height: 1.3;
       display: flex; align-items: center; justify-content: center; min-height: 3.8rem;
     }
@@ -208,7 +208,8 @@
     }
     .mt { margin-top: .7rem; }
     .mb { margin-bottom: .7rem; }
-    .wide { max-width: 52rem; }
+    .wide { max-width: 56rem; }
+    .level p { font-size: clamp(1.05rem, 1.85vw, 1.28rem); }
 
     @media (max-width: 720px) {
       .split, .quote-grid, .grid2, .grid3, .kit, .legend { grid-template-columns: 1fr; }
@@ -233,7 +234,7 @@
           <p class="kicker">Comunidade</p>
           <h1>Inclusão na Igreja</h1>
           <div class="accent-line"></div>
-          <p>Uma apresentação sobre transtornos, síndromes e acomodações para acolher com dignidade.</p>
+          <p>Transtornos, síndromes e acomodações para acolher com dignidade.</p>
         </div>
       </section>
 
@@ -244,7 +245,7 @@
           <div class="icon-wrap"><img src="assets/icon-people.svg" alt="" /></div>
           <h2>Transtorno vs Síndrome</h2>
           <div class="accent-line"></div>
-          <p>Na medicina e na psicologia, os termos síndrome e transtorno são usados para classificar condições de saúde com base no quanto se sabe sobre suas causas e como elas se manifestam.</p>
+          <p>Na saúde, <strong>síndrome</strong> e <strong>transtorno</strong> classificam condições conforme o que se sabe sobre causas e como elas se manifestam.</p>
         </div>
       </section>
 
@@ -256,9 +257,9 @@
           <h2 style="text-align:center;">1. Síndrome</h2>
           <div class="accent-line"></div>
           <ul class="clean">
-            <li>Uma síndrome é um conjunto de sinais (o que o examinador ou médico observa no corpo) e sintomas (o que a pessoa sente) que acontecem ao mesmo tempo e caracterizam uma determinada condição de saúde.</li>
-            <li><strong>Causas genéricas ou múltiplas:</strong> Uma síndrome pode ter diferentes origens — genéticas, metabólicas, emocionais ou ambientais.</li>
-            <li><strong>Ex.:</strong> Síndrome de Down (Trissomia do 21), Síndrome do X Frágil, Síndrome de Turner, Síndrome de Tourette.</li>
+            <li>Conjunto de <strong>sinais</strong> (o que se observa) e <strong>sintomas</strong> (o que a pessoa sente) que ocorrem juntos e caracterizam uma condição.</li>
+            <li><strong>Causas múltiplas:</strong> genéticas, metabólicas, emocionais ou ambientais.</li>
+            <li><strong>Exemplos:</strong> Down (Trissomia 21), X Frágil, Turner, Tourette.</li>
           </ul>
         </div>
       </section>
@@ -272,8 +273,8 @@
             <p class="kicker">Definições</p>
             <h2>2. Transtorno</h2>
             <div class="accent-line left"></div>
-            <p class="mb">Um transtorno é um termo amplo usado na área da saúde mental e do neurodesenvolvimento para descrever uma alteração funcional no modo como o cérebro opera, afetando pensamentos, emoções, comportamentos ou a capacidade de aprendizagem e adaptação.</p>
-            <p>Ao contrário de uma doença com lesão física visível em exames de imagem ou sangue, o transtorno é diagnosticado pelo padrão de funcionamento e impacto no dia a dia.</p>
+            <p class="mb">Alteração funcional no modo como o cérebro opera — afeta pensamentos, emoções, comportamento, aprendizagem ou adaptação.</p>
+            <p>Diferente de doença com lesão visível em exames: o diagnóstico vem do <strong>padrão de funcionamento</strong> e do impacto no dia a dia.</p>
           </div>
         </div>
       </section>
@@ -287,9 +288,9 @@
           <div class="grid2">
             <div class="panel">
               <ul class="clean">
-                <li><strong>Prejuízo funcional:</strong> Para ser considerado um transtorno, o padrão de comportamento ou processamento mental deve causar sofrimento significativo ou interferir na rotina diária (na escola, no trabalho ou nas relações sociais).</li>
-                <li><strong>Origem multifatorial:</strong> Envolve uma combinação de fatores genéticos, neurobiológicos e ambientais, sem uma “causa única” isolada.</li>
-                <li><strong>Diagnóstico clínico:</strong> É estabelecido por meio da observação do comportamento, histórico de vida e aplicação de critérios padronizados.</li>
+                <li><strong>Prejuízo funcional:</strong> causa sofrimento ou interfere na rotina (escola, trabalho, relações).</li>
+                <li><strong>Origem multifatorial:</strong> genética + neurobiologia + ambiente — sem causa única.</li>
+                <li><strong>Diagnóstico clínico:</strong> observação, histórico e critérios padronizados.</li>
               </ul>
             </div>
             <div class="panel" style="background:var(--accent-soft);border-color:transparent;">
@@ -312,11 +313,11 @@
           <h2>Três condições distintas</h2>
           <div class="accent-line"></div>
           <div class="grid3 mb">
-            <div class="panel" style="text-align:center;"><strong style="color:var(--accent-deep);font-size:1.05rem;">Autismo</strong></div>
-            <div class="panel" style="text-align:center;"><strong style="color:var(--accent-deep);font-size:1.05rem;">Deficiência Intelectual</strong></div>
-            <div class="panel" style="text-align:center;"><strong style="color:var(--accent-deep);font-size:1.05rem;">Síndrome de Down</strong></div>
+            <div class="panel" style="text-align:center;"><strong style="color:var(--accent-deep);font-size:1.2rem;">Autismo</strong></div>
+            <div class="panel" style="text-align:center;"><strong style="color:var(--accent-deep);font-size:1.2rem;">Deficiência Intelectual</strong></div>
+            <div class="panel" style="text-align:center;"><strong style="color:var(--accent-deep);font-size:1.2rem;">Síndrome de Down</strong></div>
           </div>
-          <p>Embora frequentemente confundidos por estarem relacionados ao neurodesenvolvimento, o Autismo (TEA), a Síndrome de Down e a Deficiência Intelectual são condições distintas, com origens, critérios diagnósticos e características particulares. Uma mesma pessoa, inclusive, pode apresentar mais de uma dessas condições associadas.</p>
+          <p>São condições distintas (origens, critérios e características diferentes), embora ligadas ao neurodesenvolvimento. A mesma pessoa pode ter mais de uma associada.</p>
         </div>
       </section>
 
@@ -327,8 +328,8 @@
           <div class="copy">
             <h2>Neurodesenvolvimento</h2>
             <div class="accent-line left"></div>
-            <p class="mb">É o processo contínuo de formação, maturação e organização do sistema nervoso central (especialmente o cérebro), que se inicia na fase embrionária e se estende até a idade adulta — por volta dos 25 anos.</p>
-            <p>Esse processo determina como uma pessoa adquire, aprimora e integra suas funções cognitivas, motoras, emocionais, de linguagem e sociais ao longo da vida.</p>
+            <p class="mb">Formação, maturação e organização do sistema nervoso — da gestação até cerca dos 25 anos.</p>
+            <p>Define como a pessoa desenvolve funções cognitivas, motoras, emocionais, de linguagem e sociais.</p>
           </div>
           <img class="pic" src="assets/kids-play.jpg" alt="Desenvolvimento infantil" />
         </div>
@@ -342,7 +343,7 @@
           <p class="kicker">TEA</p>
           <h2>Transtorno do Espectro Autista</h2>
           <div class="accent-line"></div>
-          <p>O autismo é um transtorno do neurodesenvolvimento de origem majoritariamente neurobiológica e genética. Ele altera a forma como o cérebro processa informações, afetando principalmente a comunicação, a interação social e a percepção do ambiente.</p>
+          <p>Transtorno do neurodesenvolvimento (origem neurobiológica e genética). Altera o processamento de informações — sobretudo comunicação, interação social e percepção do ambiente.</p>
         </div>
       </section>
 
@@ -354,13 +355,13 @@
             <h2>Principais características</h2>
             <div class="accent-line left"></div>
             <ul class="clean">
-              <li>Desafios na comunicação interpessoal (como reciprocidade social, linguagem verbal e não verbal).</li>
-              <li>Padrões de comportamentos, rotinas, interesses ou atividades restritos e repetitivos.</li>
-              <li>Alterações no processamento sensorial (hiper ou hipossensibilidade a sons, luzes, texturas ou dor).</li>
+              <li>Desafios na comunicação e na reciprocidade social (verbal e não verbal).</li>
+              <li>Rotinas, interesses ou comportamentos restritos e repetitivos.</li>
+              <li>Processamento sensorial diferente (hiper ou hipossensibilidade a sons, luzes, texturas, dor).</li>
             </ul>
           </div>
           <div class="panel">
-            <p><strong>O que é importante saber:</strong> O autismo é um <em>espectro</em>, o que significa que se manifesta de formas muito variadas (de níveis de suporte leves a severos). O funcionamento cognitivo de uma pessoa autista pode ir desde a inteligência acima da média até a presença de deficiência intelectual associada.</p>
+            <p><strong>Importante:</strong> é um <em>espectro</em> — de suporte leve a severo. O funcionamento cognitivo vai da inteligência acima da média até DI associada.</p>
           </div>
         </div>
       </section>
@@ -372,10 +373,10 @@
           <p class="kicker" style="text-align:center;">Causas</p>
           <h2 style="text-align:center;">Não existe causa única de autismo</h2>
           <div class="accent-line"></div>
-          <p class="mb" style="text-align:center;">O TEA é um transtorno multifatorial, ou seja, é resultante da combinação de influências genéticas, não genéticas e ambientais.</p>
+          <p class="mb" style="text-align:center;">O TEA é <strong>multifatorial</strong>: genética + fatores não genéticos + ambiente.</p>
           <div class="grid2">
-            <div class="panel"><p><strong>Fatores genéticos:</strong> Foi comprovada uma predisposição genética para o autismo. No entanto, não existe um único gene responsável pelo autismo.</p></div>
-            <div class="panel"><p><strong>Mutações genéticas:</strong> Algumas mutações genéticas podem aumentar o risco de autismo. Essas mutações podem ocorrer espontaneamente ou ser herdadas dos pais.</p></div>
+            <div class="panel"><p><strong>Fatores genéticos:</strong> há predisposição genética, mas não existe um único gene do autismo.</p></div>
+            <div class="panel"><p><strong>Mutações:</strong> algumas elevam o risco — espontâneas ou herdadas.</p></div>
           </div>
         </div>
       </section>
@@ -386,7 +387,7 @@
         <div class="focus wide">
           <h2>Fatores ambientais</h2>
           <div class="accent-line"></div>
-          <p>O ambiente também pode influenciar o desenvolvimento do autismo. Exposição a certos agentes químicos, toxinas ou infecções durante a gravidez pode aumentar o risco. Além disso, complicações durante o parto, como falta de oxigênio, também foram associadas ao autismo.</p>
+          <p>O ambiente também influencia o risco: toxinas, infecções na gravidez e complicações no parto (ex.: falta de oxigênio) foram associadas ao TEA.</p>
           <div class="chip-row">
             <span class="chip">Alcoolismo</span>
             <span class="chip">Obesidade materna</span>
@@ -408,7 +409,7 @@
           <div class="accent-line"></div>
           <div class="level">
             <strong>Nível 1 de Suporte:</strong>
-            <p>Geralmente existem dificuldades em relação ao ambiente social, mas consegue ter uma certa autonomia. Necessita de apoio e ajuda apenas em alguns momentos. Fala e conversa normalmente, mas em determinadas situações é corrigido por pequenos erros de linguagem e fala.</p>
+            <p>Dificuldades sociais com autonomia relativa. Precisa de apoio em alguns momentos. Conversa, mas pode errar linguagem em situações específicas.</p>
           </div>
         </div>
       </section>
@@ -420,11 +421,11 @@
           <div class="grid2">
             <div class="level">
               <strong>Nível 2 de Suporte:</strong>
-              <p>Na maioria dos casos não consegue ter boa comunicação verbal e não verbal, não fala todas as palavras e erra frases em alguns momentos. Apresenta comportamentos repetitivos mais frequentes que o nível 1. Dificuldade em iniciar interações sociais, precisando muitas de mediador nessas situações;</p>
+              <p>Comunicação verbal/não verbal limitada; frases incompletas. Mais estereotipias. Dificuldade para iniciar interações — muitas vezes precisa de mediador.</p>
             </div>
             <div class="level" style="border-left-color:var(--warm);">
               <strong>Nível 3 de Suporte:</strong>
-              <p>Frequentemente não consegue falar de forma satisfatória e na maioria das vezes não fala. Autistas não verbais são considerados de intensidade severa, pois não apresentam requisitos e condições de comunicação verbal. Alta dependência nas AVDs (atividades de vida diária), sociais e capacidade cognitiva.</p>
+              <p>Comunicação verbal muito limitada ou ausente (não verbal). Alta dependência nas AVDs, na vida social e no suporte cognitivo.</p>
             </div>
           </div>
         </div>
@@ -437,13 +438,12 @@
           <div class="copy">
             <h2>Estereotipias</h2>
             <div class="accent-line left"></div>
-            <p>Comportamentos repetitivos motores e/ou verbais. Geralmente após um gatilho estressante correlacionado com a ansiedade.</p>
-            <p class="mt">Também podem ocorrer quando estão felizes.</p>
-            <p class="mt">Esses movimentos podem ajudar na organização dos pensamentos, regular o excesso de energia e emocional (sobrecarga sensorial) para a atenção e concentração.</p>
+            <p>Movimentos ou falas repetitivas — comuns sob estresse/ansiedade, e também na alegria.</p>
+            <p class="mt">Ajudam a organizar pensamentos, regular energia e lidar com sobrecarga sensorial.</p>
           </div>
           <div class="panel">
             <h3>Rigidez cognitiva</h3>
-            <p class="mb">Dificuldade em adaptar-se a mudanças ou em ver as coisas de perspectivas diferentes.</p>
+            <p class="mb">Dificuldade de se adaptar a mudanças ou de ver outras perspectivas.</p>
             <ul class="clean">
               <li>Adesão a rotinas e padrões;</li>
               <li>Dificuldade em lidar com a incerteza;</li>
@@ -465,14 +465,13 @@
           <div class="grid2">
             <div class="panel">
               <h3>Comportamento disruptivo</h3>
-              <p>Comportamentos indesejados: fazer birras, bater a cabeça, autoagressão ou agredir outras pessoas;</p>
-              <p class="mt">Estas respostas comportamentais prejudicam a interação social, o aprendizado e seu bem-estar.</p>
-              <p class="mt">Aparecem quando querem atenção social, se esquivar ou fugir de demandas, ter acesso a algum reforçador e/ou escapar de alguma estimulação indesejada, geralmente usa dessa estratégia para reverter a situação a seu favor.</p>
+              <p>Birras, autoagressão, agredir outros — prejudicam interação, aprendizado e bem-estar.</p>
+              <p class="mt">Podem servir para pedir atenção, escapar de demandas, obter algo ou fugir de estímulo indesejado.</p>
             </div>
             <div class="panel">
               <h3>Crises</h3>
-              <p>Ocorre quando a criança é exposta a estímulos sensoriais com os quais não consegue lidar. Gatilhos: luz, vozes, barulho, mudanças de rotina, movimentos, espera prolongada, excesso de informação.</p>
-              <p class="mt">A crise é uma tentativa de restabelecer o equilíbrio e estabilizar as emoções. É desencadeada pelo sistema nervoso.</p>
+              <p>Sobrecarga sensorial. Gatilhos: luz, vozes, barulho, mudança de rotina, espera, excesso de informação.</p>
+              <p class="mt">É tentativa do sistema nervoso de restabelecer o equilíbrio — não “birra de propósito”.</p>
             </div>
           </div>
         </div>
@@ -525,7 +524,7 @@
             <p class="kicker">Condição genética</p>
             <h2>Síndrome de Down</h2>
             <div class="accent-line left"></div>
-            <p>A Síndrome de Down é uma <strong>condição genética congênita</strong> causada pela presença de três cromossomos 21 (em vez de um par), motivo pelo qual também é chamada de <strong>Trissomia do 21</strong>.</p>
+            <p>Condição genética congênita: três cromossomos 21 (em vez de um par) — <strong>Trissomia do 21</strong>.</p>
           </div>
           <img class="pic" src="assets/down-smile.jpg" alt="Pessoa com Síndrome de Down" />
         </div>
@@ -538,13 +537,13 @@
           <h2 style="text-align:center;">Principais características</h2>
           <div class="accent-line"></div>
           <ul class="clean mb">
-            <li>Características físicas específicas (como hipotonia muscular, olhos amendoados, prega palmar única e menor estatura).</li>
-            <li>Ritmo próprio no desenvolvimento motor e na aquisição da linguagem.</li>
-            <li>Presença de deficiência intelectual na grande maioria dos casos (geralmente de grau leve a moderado).</li>
-            <li>Maior predisposição a algumas questões de saúde física (como cardiopatias congênitas, problemas auditivos ou na tireoide).</li>
+            <li>Traços físicos comuns: hipotonia, olhos amendoados, prega palmar única, menor estatura.</li>
+            <li>Ritmo próprio no desenvolvimento motor e na linguagem.</li>
+            <li>DI na maioria dos casos (geralmente leve a moderada).</li>
+            <li>Maior risco de cardiopatia, problemas auditivos ou tireoide.</li>
           </ul>
           <div class="panel">
-            <p><strong>O que é importante saber:</strong> É identificável por meio do exame de cariótipo. Com acompanhamento precoce (fisioterapia, fonoaudiologia, estimulação cognitiva), a pessoa com Síndrome de Down desenvolve autonomia e habilidades sociais significativas.</p>
+            <p><strong>Importante:</strong> confirmada pelo cariótipo. Com estimulação precoce (fisio, fono, cognição), há ganhos reais de autonomia e vida social.</p>
           </div>
         </div>
       </section>
@@ -557,9 +556,9 @@
           <div class="copy">
             <h2>Deficiência Intelectual (DI)</h2>
             <div class="accent-line left"></div>
-            <p class="mb">A Deficiência Intelectual (DI) é um transtorno do neurodesenvolvimento caracterizado por limitações significativas tanto no funcionamento intelectual quanto no comportamento adaptativo, originando-se antes dos 18 anos de idade.</p>
+            <p class="mb">Limitações significativas no funcionamento intelectual e no comportamento adaptativo, com início antes dos 18 anos.</p>
             <div class="panel">
-              <p><strong>O que é importante saber:</strong> A DI é uma classificação funcional e pode ter diversas causas (alterações genéticas, complicações no parto, infecções, traumatismos, carências ambientais graves) ou ter causa desconhecida.</p>
+              <p><strong>Importante:</strong> classificação funcional. Causas: genética, parto, infecções, trauma, carência ambiental — ou desconhecida.</p>
             </div>
           </div>
         </div>
@@ -570,12 +569,12 @@
         <div class="blob blob-tr"></div>
         <div class="focus wide" style="align-items:stretch;">
           <h2 style="text-align:center;">Três pilares do diagnóstico</h2>
-          <p style="text-align:center;margin-bottom:.8rem;">O diagnóstico não depende apenas do QI, mas da avaliação conjunta de:</p>
+          <p style="text-align:center;margin-bottom:.8rem;">Não depende só do QI — avalia-se juntos:</p>
           <div class="accent-line"></div>
           <div class="grid3">
-            <div class="panel"><h3>Funcionamento Intelectual</h3><p>Capacidades cognitivas como raciocínio, resolução de problemas, planejamento, pensamento abstrato, julgamento e aprendizagem acadêmica ou pela experiência.</p></div>
-            <div class="panel"><h3>Comportamento Adaptativo</h3><p>Conjunto de habilidades conceituais, sociais e práticas necessárias para responder às demandas da vida cotidiana e alcançar autonomia.</p></div>
-            <div class="panel"><h3>Início no Desenvolvimento</h3><p>Os prejuízos devem se manifestar durante a infância ou adolescência.</p></div>
+            <div class="panel"><h3>Funcionamento Intelectual</h3><p>Raciocínio, resolução de problemas, planejamento, julgamento e aprendizagem.</p></div>
+            <div class="panel"><h3>Comportamento Adaptativo</h3><p>Habilidades conceituais, sociais e práticas para a vida diária e autonomia.</p></div>
+            <div class="panel"><h3>Início no Desenvolvimento</h3><p>Prejuízos na infância ou adolescência.</p></div>
           </div>
         </div>
       </section>
@@ -588,11 +587,11 @@
           <h2>Por que falar sobre inclusão na Igreja?</h2>
           <div class="accent-line"></div>
           <ul class="clean" style="max-width:34rem;">
-            <li>Nova realidade;</li>
-            <li>Aumento significativo de pessoas com transtornos e deficiências na sociedade;</li>
-            <li>O convívio em todos os ambientes: Igreja;</li>
-            <li>Conscientizar as lideranças e membros cristãos;</li>
-            <li>Suporte à rede familiar.</li>
+            <li>Nova realidade nas igrejas;</li>
+            <li>Mais pessoas com transtornos e deficiências na sociedade;</li>
+            <li>Convívio também no ambiente da Igreja;</li>
+            <li>Conscientizar lideranças e membros;</li>
+            <li>Apoiar a rede familiar.</li>
           </ul>
         </div>
       </section>
@@ -601,10 +600,10 @@
       <section class="slide" data-slide="23">
         <div class="quote-grid">
           <div class="quote" style="background-image:url('assets/teach-love.jpg')">
-            <p>Quando você me ensina com amor, eu sou capaz de aprender. Converse com a turma sobre as minhas diferenças e me ajude a participar do grupo.</p>
+            <p>Quando me ensina com amor, eu aprendo. Fale com a turma sobre minhas diferenças e me ajude a participar.</p>
           </div>
           <div class="quote" style="background-image:url('assets/move-happy.jpg')">
-            <p>Se eu quiser pular ou dar uma voltinha pela igreja, isso significa que preciso me regular, e também acontece quando estou feliz.</p>
+            <p>Se eu pular ou andar pela igreja, posso estar me regulando — ou feliz.</p>
           </div>
         </div>
       </section>
@@ -613,10 +612,10 @@
       <section class="slide" data-slide="24">
         <div class="quote-grid">
           <div class="quote" style="background-image:url('assets/kids-curious.jpg')">
-            <p>Meu comportamento não é para te provocar ou testar, apenas não sei como fazer de outro jeito, mas você pode me ensinar que eu aprendo.</p>
+            <p>Não estou te provocando: ainda não sei outro jeito. Você pode me ensinar — eu aprendo.</p>
           </div>
           <div class="quote" style="background-image:url('assets/focus-write.jpg')">
-            <p>Se você dividir as tarefas em etapas menores eu consigo dar conta das atividades.</p>
+            <p>Se dividir as tarefas em etapas menores, eu dou conta.</p>
           </div>
         </div>
       </section>
@@ -625,10 +624,10 @@
       <section class="slide" data-slide="25">
         <div class="quote-grid">
           <div class="quote" style="background-image:url('assets/sensory-soft.jpg')">
-            <p>Com as acomodações sensoriais necessárias, eu posso me concentrar melhor no que você ensinar.</p>
+            <p>Com acomodações sensoriais, consigo me concentrar melhor no que você ensina.</p>
           </div>
           <div class="quote" style="background-image:url('assets/toys-calm.jpg')">
-            <p>Se você usar os meus interesses e hiperfoco, eu irei gostar das atividades propostas!</p>
+            <p>Se usar meus interesses e hiperfoco, eu gosto das atividades!</p>
           </div>
         </div>
       </section>
@@ -640,11 +639,11 @@
           <h2 style="text-align:center;">Como incluir e acomodar?</h2>
           <div class="accent-line"></div>
           <div class="panel mb">
-            <p>A inclusão e a acomodação de pessoas autistas e de suas famílias no ambiente religioso exigem ações estratégicas em níveis <strong>estrutural, atitudinal e litúrgico</strong>.</p>
+            <p>Incluir e acomodar exige ações em três níveis: <strong>estrutural, atitudinal e litúrgico</strong>.</p>
           </div>
           <div class="panel" style="background:var(--accent-soft);border:0;">
             <h3>1. Acolhimento e Cultura da Comunidade</h3>
-            <p><strong>Treinamento das equipes</strong> — Orientar recepção, voluntários, ministério e equipe a reconhecer e respeitar comportamentos e estereotipias, evitando olhares de julgamento ou abordagens invasivas.</p>
+            <p><strong>Treinar equipes</strong> — recepção, voluntários e ministério: reconhecer estereotipias, sem olhar de julgamento nem abordagem invasiva.</p>
           </div>
         </div>
       </section>
@@ -656,11 +655,11 @@
           <div class="grid2">
             <div class="panel">
               <h3>Comunicação clara e empática</h3>
-              <p>Promover palestras ou momentos de conscientização sobre o autismo para a comunidade, reforçando a importância do acolhimento.</p>
+              <p>Conscientizar a comunidade sobre o autismo e a importância do acolhimento.</p>
             </div>
             <div class="panel">
               <h3>Escuta ativa das famílias</h3>
-              <p>Realizar uma breve anamnese ou conversa com os pais/responsáveis para entender os hiperfocos, gatilhos, sensibilidades sensoriais e preferências de comunicação de cada autista.</p>
+              <p>Conversar com a família: hiperfocos, gatilhos, sensibilidades e forma de comunicação.</p>
             </div>
           </div>
         </div>
@@ -674,8 +673,8 @@
             <h2>2. Acomodação Sensorial e Espacial</h2>
             <div class="accent-line left"></div>
             <ul class="clean">
-              <li><strong>Espaço de desregulação (Sala de Descompressão/acomodação):</strong> Disponibilizar um local calmo, com iluminação mais suave e poucos estímulos sonoros, onde a pessoa possa se autorregular quando o ambiente principal ficar sobrecarregado.</li>
-              <li><strong>Kits sensoriais de apoio:</strong> Disponibilizar itens de autorregulação para empréstimo durante os cultos.</li>
+              <li><strong>Sala de descompressão:</strong> local calmo, luz suave e pouco som — para se autorregular na sobrecarga.</li>
+              <li><strong>Kits sensoriais:</strong> itens de autorregulação para empréstimo no culto.</li>
             </ul>
           </div>
           <img class="pic" src="assets/quiet-space.jpg" alt="Espaço calmo" />
@@ -743,11 +742,11 @@
           <div class="accent-line"></div>
           <div class="panel mb">
             <h3>Voluntário de apoio</h3>
-            <p>Designar um voluntário fixo para acompanhar o autista durante as atividades, facilitando a participação social sem sobrecarregar os pais e garantindo previsibilidade.</p>
+            <p>Voluntário fixo ao lado da pessoa: facilita a participação, sem sobrecarregar os pais, com previsibilidade.</p>
           </div>
           <div class="panel">
             <h3>Flexibilidade e respeito</h3>
-            <p>Compreender que a presença pode variar — em alguns dias a pessoa participará de todo o encontro, em outros precisará sair antes ou permanecer apenas no espaço sensorial.</p>
+            <p>A presença pode variar: às vezes o encontro todo; às vezes sair antes ou ficar só no espaço sensorial.</p>
           </div>
         </div>
       </section>

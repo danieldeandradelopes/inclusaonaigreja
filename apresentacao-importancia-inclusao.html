@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Importância da inclusão nas igrejas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg-soft: #f7faf8;
+      --ink: #1e293b;
+      --muted: #64748b;
+      --accent: #5b8a72;
+      --accent-soft: #e8f2ec;
+      --accent-deep: #3f6b56;
+      --warm: #c4785a;
+      --line: #e2e8f0;
+      --font: "DM Sans", system-ui, sans-serif;
+      --display: "Fraunces", Georgia, serif;
+      --radius: 20px;
+      --shadow: 0 8px 28px rgba(30, 41, 59, 0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%; background: #0f172a; color: var(--ink);
+      font-family: var(--font); overflow: hidden;
+    }
+    .deck {
+      width: 100vw; height: 100vh; display: grid; place-items: center;
+      position: relative;
+    }
+    .stage {
+      width: min(100vw - 24px, calc((100vh - 24px) * 16 / 9));
+      height: min(100vh - 24px, calc((100vw - 24px) * 9 / 16));
+      position: relative; background: var(--bg); overflow: hidden;
+      border-radius: 16px; box-shadow: 0 25px 80px rgba(0,0,0,.45);
+    }
+    .progress {
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: var(--line); z-index: 30; display: flex;
+    }
+    .progress span {
+      flex: 1; height: 100%; background: transparent;
+      transition: background .25s ease;
+    }
+    .progress span.on { background: var(--accent); }
+    .slide {
+      position: absolute; inset: 0; padding: clamp(1.5rem, 4vw, 2.75rem);
+      display: none; opacity: 0; transition: opacity .28s ease;
+      overflow: hidden;
+    }
+    .slide.active { display: flex; flex-direction: column; opacity: 1; }
+    .blob {
+      position: absolute; border-radius: 50%; pointer-events: none; z-index: 0;
+      background: var(--accent-soft); opacity: .7;
+    }
+    .blob-tr { width: 42vmin; height: 42vmin; top: -18vmin; right: -14vmin; }
+    .blob-bl { width: 36vmin; height: 36vmin; bottom: -16vmin; left: -12vmin; }
+    .slide > *:not(.blob) { position: relative; z-index: 1; }
+    h1, h2, h3 { font-family: var(--display); line-height: 1.12; color: var(--ink); }
+    h1 { font-size: clamp(2.5rem, 5.6vw, 3.9rem); color: var(--accent-deep); }
+    h2 { font-size: clamp(1.75rem, 3.7vw, 2.7rem); margin-bottom: .45rem; }
+    h3 { font-size: clamp(1.2rem, 2.35vw, 1.5rem); margin-bottom: .3rem; }
+    p, li { font-size: clamp(1.12rem, 2vw, 1.38rem); line-height: 1.42; color: var(--muted); }
+    .accent-line {
+      width: 48px; height: 3px; background: var(--accent); border-radius: 2px;
+      margin: .55rem auto 1rem;
+    }
+    .accent-line.left { margin-left: 0; }
+    .focus {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+      max-width: 48rem; margin: 0 auto; width: 100%;
+    }
+    .focus .illus {
+      width: min(34%, 220px); aspect-ratio: 1; border-radius: 24px;
+      object-fit: cover; margin-bottom: .9rem; box-shadow: var(--shadow);
+    }
+    .focus .icon-wrap {
+      width: 56px; height: 56px; border-radius: 50%; background: var(--accent-soft);
+      display: grid; place-items: center; margin: 0 auto .85rem;
+    }
+    .focus .icon-wrap img { width: 28px; height: 28px; }
+    .kicker {
+      font-size: .92rem; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: .35rem;
+    }
+    .split {
+      flex: 1; display: grid; grid-template-columns: 1fr 1fr;
+      gap: clamp(1.2rem, 3vw, 2.5rem); align-items: center; min-height: 0;
+    }
+    .split .pic {
+      width: 100%; height: min(100%, 48vh); max-height: 360px;
+      border-radius: var(--radius); object-fit: cover; box-shadow: var(--shadow);
+    }
+    .split .copy { display: flex; flex-direction: column; justify-content: center; }
+    ul.clean { list-style: none; text-align: left; width: 100%; display: flex; flex-direction: column; gap: .45rem; }
+    ul.clean li { position: relative; padding-left: 1.15rem; }
+    ul.clean li::before {
+      content: ""; position: absolute; left: 0; top: .55em;
+      width: .4rem; height: .4rem; border-radius: 50%; background: var(--accent);
+    }
+    ol.steps { list-style: none; counter-reset: s; text-align: left; width: 100%; display: flex; flex-direction: column; gap: .45rem; }
+    ol.steps li {
+      counter-increment: s; display: grid; grid-template-columns: 2rem 1fr;
+      gap: .65rem; align-items: start;
+    }
+    ol.steps li::before {
+      content: counter(s); width: 2rem; height: 2rem; border-radius: 50%;
+      background: var(--accent); color: #fff; font-size: .85rem; font-weight: 700;
+      display: grid; place-items: center;
+    }
+    .panel {
+      background: var(--bg-soft); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: clamp(.9rem, 1.8vw, 1.25rem);
+      text-align: left;
+    }
+    .panel strong { color: var(--ink); }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; width: 100%; }
+    .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: .65rem; width: 100%; }
+    .nav {
+      position: absolute; bottom: .75rem; left: 50%; transform: translateX(-50%);
+      z-index: 40; display: flex; align-items: center; gap: .45rem;
+      background: rgba(255,255,255,.92); border: 1px solid var(--line);
+      backdrop-filter: blur(8px); padding: .3rem .45rem; border-radius: 999px;
+      box-shadow: var(--shadow); font-size: .82rem; color: var(--muted);
+    }
+    .nav button, .nav a.home {
+      appearance: none; border: 0; background: var(--accent-soft); color: var(--accent-deep);
+      width: 2rem; height: 2rem; border-radius: 50%; cursor: pointer; font-size: 1rem;
+      display: grid; place-items: center; text-decoration: none; font-weight: 700;
+    }
+    .nav a.home {
+      width: auto; padding: 0 .7rem; height: 2rem; font-size: .75rem; letter-spacing: .02em;
+    }
+    .nav button:hover, .nav a.home:hover { background: var(--accent); color: #fff; }
+    .nav .counter { min-width: 3.8rem; text-align: center; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--ink); }
+    .hint {
+      position: absolute; bottom: .85rem; right: 1rem; z-index: 40;
+      font-size: .68rem; color: rgba(100,116,139,.7); pointer-events: none;
+    }
+    .mt { margin-top: .7rem; }
+    .mb { margin-bottom: .7rem; }
+    .wide { max-width: 56rem; }
+    @media (max-width: 720px) {
+      .split, .grid2, .grid3 { grid-template-columns: 1fr; }
+      .slide { overflow-y: auto; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .slide, .progress span { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck">
+    <div class="stage" id="stage">
+      <div class="progress" id="progress" aria-hidden="true"></div>
+
+      <!-- 1 -->
+      <section class="slide active" data-slide="1">
+        <div class="blob blob-tr"></div><div class="blob blob-bl"></div>
+        <div class="focus">
+          <img class="illus" src="assets/community-circle.jpg" alt="Comunidade acolhedora" />
+          <p class="kicker">Igreja · Acolhimento</p>
+          <h1>Importância da inclusão nas igrejas</h1>
+          <div class="accent-line"></div>
+          <p>Por que acolher, como acolher e o que muda quando a comunidade se prepara.</p>
+        </div>
+      </section>
+
+      <!-- 2 -->
+      <section class="slide" data-slide="2">
+        <div class="blob blob-tr"></div>
+        <div class="focus">
+          <div class="icon-wrap"><img src="assets/icon-people.svg" alt="" /></div>
+          <h2>Para quem é esta palestra?</h2>
+          <div class="accent-line"></div>
+          <ul class="clean" style="max-width:36rem;">
+            <li>Lideranças e membros da igreja.</li>
+            <li>Auxiliares da porta e recepção.</li>
+            <li>Irmãs da RC.</li>
+            <li>Quem quer entender por que inclusão não é “extra” — é parte do evangelho.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 3 -->
+      <section class="slide" data-slide="3">
+        <div class="blob blob-bl"></div>
+        <div class="focus">
+          <h2>O que é inclusão?</h2>
+          <div class="accent-line"></div>
+          <p>É garantir <strong>participação real</strong> — com adaptações — sem pena, sem exclusão e sem exigir que a pessoa “se encaixe sozinha”.</p>
+          <p class="mt">Incluir ≠ só aceitar a presença. Incluir = pertencimento.</p>
+        </div>
+      </section>
+
+      <!-- 4 -->
+      <section class="slide" data-slide="4">
+        <div class="blob blob-tr"></div>
+        <div class="focus wide">
+          <h2>Inclusão não é…</h2>
+          <div class="accent-line"></div>
+          <div class="grid2">
+            <div class="panel"><p><strong>Pena ou “anjinho”</strong><br/>Diminui a dignidade da pessoa.</p></div>
+            <div class="panel"><p><strong>Permissividade</strong><br/>Acolher não é “pode tudo”.</p></div>
+            <div class="panel"><p><strong>Só acessibilidade física</strong><br/>Também é olhar, linguagem e rotina.</p></div>
+            <div class="panel"><p><strong>Trabalho de uma pessoa</strong><br/>É cultura de toda a igreja.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5 -->
+      <section class="slide" data-slide="5">
+        <div class="blob blob-bl"></div>
+        <div class="split">
+          <img class="pic" src="assets/people-together.jpg" alt="Comunidade unida" />
+          <div class="copy">
+            <h2>Por que a igreja precisa incluir?</h2>
+            <div class="accent-line left"></div>
+            <ul class="clean">
+              <li>O evangelho é para todos.</li>
+              <li>Famílias atípicas também precisam de comunidade.</li>
+              <li>Mais pessoas com TEA, DI, TDAH e outras condições estão na sociedade — e na igreja.</li>
+              <li>Sem acolhimento, muitas famílias deixam de frequentar.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6 -->
+      <section class="slide" data-slide="6">
+        <div class="blob blob-tr"></div>
+        <div class="focus">
+          <div class="icon-wrap"><img src="assets/icon-heart.svg" alt="" /></div>
+          <h2>Mudar o olhar</h2>
+          <div class="accent-line"></div>
+          <p>Sair de <strong>“o que falta nessa pessoa”</strong> para <strong>“o que Deus já colocou de precioso nela”</strong>.</p>
+          <p class="mt">O primeiro passo da inclusão é a perspectiva — depois vêm as adaptações práticas.</p>
+        </div>
+      </section>
+
+      <!-- 7 -->
+      <section class="slide" data-slide="7">
+        <div class="blob blob-bl"></div>
+        <div class="focus wide">
+          <h2>O que a família sente</h2>
+          <div class="accent-line"></div>
+          <div class="grid3">
+            <div class="panel" style="text-align:center;"><h3>Medo do olhar</h3><p>Julgamento silencioso na porta e no culto.</p></div>
+            <div class="panel" style="text-align:center;"><h3>Cansaço</h3><p>Sobrecarga emocional e invisibilidade.</p></div>
+            <div class="panel" style="text-align:center;"><h3>Insegurança</h3><p>“Será que somos bem-vindos de verdade?”</p></div>
+          </div>
+          <p class="mt">Quando a igreja acolhe, a família permanece — e a criança aprende em segurança.</p>
+        </div>
+      </section>
+
+      <!-- 8 -->
+      <section class="slide" data-slide="8">
+        <div class="blob blob-tr"></div>
+        <div class="focus wide">
+          <h2>Benefícios para toda a igreja</h2>
+          <div class="accent-line"></div>
+          <ul class="clean" style="max-width:40rem;margin:0 auto;">
+            <li>Comunidade mais fiel ao evangelho do acolhimento.</li>
+            <li>Crianças e jovens aprendem empatia na prática.</li>
+            <li>Ambiente mais previsível e calmo ajuda a todos.</li>
+            <li>Liderança e voluntários crescem em maturidade e cuidado.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 9 -->
+      <section class="slide" data-slide="9">
+        <div class="blob blob-bl"></div>
+        <div class="focus wide">
+          <h2>Três níveis de ação</h2>
+          <div class="accent-line"></div>
+          <div class="grid3">
+            <div class="panel"><h3>Estrutural</h3><p>Espaço calmo, som, luz, kits, rotina visual.</p></div>
+            <div class="panel"><h3>Atitudinal</h3><p>Olhar, linguagem, treinamento, parceria com a família.</p></div>
+            <div class="panel"><h3>Litúrgico / pedagógico</h3><p>Linguagem concreta, pictogramas, tempo e movimento.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10 -->
+      <section class="slide" data-slide="10">
+        <div class="blob blob-tr"></div>
+        <div class="split">
+          <div class="copy">
+            <p class="kicker">Primeiro contato</p>
+            <h2>A inclusão começa na porta</h2>
+            <div class="accent-line left"></div>
+            <p>Antes da sala, a família já decide se se sente segura. O auxiliar da porta é o <strong>primeiro culto de acolhimento</strong>.</p>
+          </div>
+          <img class="pic" src="assets/family-welcome.jpg" alt="Acolhimento na entrada" />
+        </div>
+      </section>
+
+      <!-- 11 -->
+      <section class="slide" data-slide="11">
+        <div class="blob blob-bl"></div>
+        <div class="focus wide" style="align-items:stretch;text-align:left;">
+          <h2 style="text-align:center;">Como lidar com os pais</h2>
+          <div class="accent-line"></div>
+          <ol class="steps">
+            <li><span>Trate a família como parceira — não como problema.</span></li>
+            <li><span>Pergunte o que funciona: gatilhos, comunicação, o que acalma.</span></li>
+            <li><span>Fale de avanços e dificuldades juntos.</span></li>
+            <li><span>Não diagnostique; observe e alinhe.</span></li>
+            <li><span>Evite culpa: “falta de limite”, “desinteresse”.</span></li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- 12 -->
+      <section class="slide" data-slide="12">
+        <div class="blob blob-tr"></div>
+        <div class="focus wide">
+          <h2>Como não parecer que está “reparando”</h2>
+          <div class="accent-line"></div>
+          <div class="grid2">
+            <div class="panel">
+              <h3>Evite</h3>
+              <ul class="clean">
+                <li>Olhar fixo ou sussurro em círculo.</li>
+                <li>“O que ela tem?”</li>
+                <li>Olhar de pena ou curiosidade.</li>
+              </ul>
+            </div>
+            <div class="panel" style="background:var(--accent-soft);border:0;">
+              <h3>Faça</h3>
+              <ul class="clean">
+                <li>Cumprimente com naturalidade.</li>
+                <li>Trate a criança pelo nome.</li>
+                <li>Oriente o caminho e chame quem acompanha.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 13 -->
+      <section class="slide" data-slide="13">
+        <div class="blob blob-bl"></div>
+        <div class="focus wide">
+          <h2>Acolher sem maltratar</h2>
+          <div class="accent-line"></div>
+          <ul class="clean" style="max-width:40rem;margin:0 auto;text-align:left;">
+            <li>Não force abraço, olhar nos olhos, quietude ou fala.</li>
+            <li>Em crise: voz baixa, menos estímulo, espaço calmo.</li>
+            <li>Converse depois — não no auge.</li>
+            <li>Respeito + participação real, sem condescendência.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 14 -->
+      <section class="slide" data-slide="14">
+        <div class="blob blob-tr"></div>
+        <div class="focus wide">
+          <h2>Limites sem liberdade excessiva</h2>
+          <div class="accent-line"></div>
+          <p class="mb"><strong>Inclusão ≠ permissividade.</strong></p>
+          <div class="grid2">
+            <div class="panel"><p><strong>Faça:</strong> poucas regras (3–5), claras, visuais, consistentes e calmas.</p></div>
+            <div class="panel"><p><strong>Faça:</strong> reforço positivo imediato e 2 escolhas quando possível.</p></div>
+            <div class="panel"><p><strong>Evite:</strong> gritar, constranger ou negociar no auge da crise.</p></div>
+            <div class="panel"><p><strong>Segurança:</strong> fuga e agressão têm limite firme — alinhado com a família.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 15 -->
+      <section class="slide" data-slide="15">
+        <div class="blob blob-bl"></div>
+        <div class="split">
+          <img class="pic" src="assets/support-group.jpg" alt="Equipe preparada" />
+          <div class="copy">
+            <h2>Quem precisa estar preparado?</h2>
+            <div class="accent-line left"></div>
+            <ul class="clean">
+              <li>Auxiliares da porta</li>
+              <li>Irmãs da RC</li>
+              <li>Liderança e ministério</li>
+              <li>Comunidade (consciência coletiva)</li>
+            </ul>
+            <p class="mt">Ninguém faz sozinho: porta · sala · família.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 16 -->
+      <section class="slide" data-slide="16">
+        <div class="blob blob-tr"></div>
+        <div class="focus wide" style="align-items:stretch;text-align:left;">
+          <h2 style="text-align:center;">Comece nesta semana</h2>
+          <div class="accent-line"></div>
+          <ol class="steps">
+            <li><span>Alinhe 2 frases de recepção com os auxiliares da porta.</span></li>
+            <li><span>Converse 5 minutos com 1 família.</span></li>
+            <li><span>Defina um espaço mais calmo (mesmo que simples).</span></li>
+            <li><span>Combine quem é o voluntário de apoio, se necessário.</span></li>
+            <li><span>Fale com a equipe: olhar, limites e parceria.</span></li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- 17 -->
+      <section class="slide" data-slide="17">
+        <div class="blob blob-bl"></div>
+        <div class="focus">
+          <img class="illus" src="assets/hands-community.jpg" alt="Mãos em comunidade" />
+          <h2>Frase-guia da equipe</h2>
+          <div class="accent-line"></div>
+          <p style="font-size:clamp(1.25rem,2.4vw,1.7rem);color:var(--ink);font-weight:600;">Acolher a pessoa · alinhar com a família · manter regras claras.</p>
+        </div>
+      </section>
+
+      <!-- 18 -->
+      <section class="slide" data-slide="18">
+        <div class="blob blob-tr"></div><div class="blob blob-bl"></div>
+        <div class="focus">
+          <p class="kicker">Lembrete final</p>
+          <h1 style="font-size:clamp(1.9rem,4.2vw,3rem);">Inclusão é escolha diária</h1>
+          <div class="accent-line"></div>
+          <p>Com paciência, respeito e disposição para aprender. A igreja que acolhe vive o evangelho na prática.</p>
+        </div>
+      </section>
+
+    </div>
+
+    <nav class="nav" aria-label="Navegação">
+      <a class="home" href="index.html" aria-label="Voltar ao início">Início</a>
+      <button type="button" id="prev" aria-label="Anterior">‹</button>
+      <span class="counter"><span id="current">1</span> / <span id="total">18</span></span>
+      <button type="button" id="next" aria-label="Próximo">›</button>
+    </nav>
+    <p class="hint">← → · F tela cheia</p>
+  </div>
+
+  <script>
+    (function () {
+      const slides = Array.from(document.querySelectorAll(".slide"));
+      const total = slides.length;
+      const currentEl = document.getElementById("current");
+      const progress = document.getElementById("progress");
+      document.getElementById("total").textContent = String(total);
+      progress.innerHTML = "";
+      for (let i = 0; i < total; i++) {
+        const s = document.createElement("span");
+        progress.appendChild(s);
+      }
+      const bars = Array.from(progress.querySelectorAll("span"));
+      let index = 0;
+      function go(n) {
+        index = (n + total) % total;
+        slides.forEach((s, i) => s.classList.toggle("active", i === index));
+        bars.forEach((b, i) => b.classList.toggle("on", i <= index));
+        currentEl.textContent = String(index + 1);
+        history.replaceState(null, "", "#" + (index + 1));
+      }
+      function fromHash() {
+        const n = parseInt(location.hash.replace("#", ""), 10);
+        if (n >= 1 && n <= total) go(n - 1); else go(0);
+      }
+      document.getElementById("prev").addEventListener("click", () => go(index - 1));
+      document.getElementById("next").addEventListener("click", () => go(index + 1));
+      document.addEventListener("keydown", (e) => {
+        if (["ArrowRight","PageDown"," "].includes(e.key)) { e.preventDefault(); go(index + 1); }
+        else if (["ArrowLeft","PageUp"].includes(e.key)) { e.preventDefault(); go(index - 1); }
+        else if (e.key === "Home") go(0);
+        else if (e.key === "End") go(total - 1);
+        else if (e.key === "f" || e.key === "F") {
+          if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+          else document.exitFullscreen?.();
+        }
+      });
+      let touchX = null;
+      document.getElementById("stage").addEventListener("touchstart", (e) => { touchX = e.changedTouches[0].screenX; }, { passive: true });
+      document.getElementById("stage").addEventListener("touchend", (e) => {
+        if (touchX == null) return;
+        const dx = e.changedTouches[0].screenX - touchX;
+        if (Math.abs(dx) > 50) go(index + (dx < 0 ? 1 : -1));
+        touchX = null;
+      }, { passive: true });
+      document.getElementById("stage").addEventListener("click", (e) => {
+        if (e.target.closest("button, a, .nav")) return;
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        if (x > rect.width * 0.66) go(index + 1);
+        else if (x < rect.width * 0.33) go(index - 1);
+      });
+      window.addEventListener("hashchange", fromHash);
+      fromHash();
+    })();
+  </script>
+</body>
+</html>
