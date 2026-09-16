@@ -52,10 +52,29 @@
 
     .slide {
       position: absolute; inset: 0; padding: clamp(1.5rem, 4vw, 2.75rem);
-      display: none; opacity: 0; transition: opacity .28s ease;
-      overflow: hidden;
+      display: flex; flex-direction: column;
+      opacity: 0; visibility: hidden; pointer-events: none;
+      transform: translateX(3.25rem) scale(.985);
+      transition: opacity .5s ease, transform .5s cubic-bezier(.22,1,.36,1), visibility 0s linear .5s;
+      overflow: hidden; z-index: 1;
     }
-    .slide.active { display: flex; flex-direction: column; opacity: 1; }
+    .slide.active {
+      opacity: 1; visibility: visible; pointer-events: auto;
+      transform: none;
+      transition: opacity .5s ease, transform .5s cubic-bezier(.22,1,.36,1), visibility 0s;
+      z-index: 2;
+    }
+    .slide.from-left { transform: translateX(-3.25rem) scale(.985); visibility: visible; }
+    .slide.from-right { transform: translateX(3.25rem) scale(.985); visibility: visible; }
+    .slide.leave-left { transform: translateX(-3.25rem) scale(.985); }
+    .slide.leave-right { transform: translateX(3.25rem) scale(.985); }
+    .slide.active > *:not(.blob) {
+      animation: slide-rise .55s cubic-bezier(.22,1,.36,1) both;
+    }
+    @keyframes slide-rise {
+      from { opacity: 0; transform: translateY(.7rem); }
+      to { opacity: 1; transform: none; }
+    }
 
     .blob {
       position: absolute; border-radius: 50%; pointer-events: none; z-index: 0;
@@ -233,6 +252,7 @@
     }
     @media (prefers-reduced-motion: reduce) {
       .slide, .progress span { transition: none; }
+      .slide.active > *:not(.blob) { animation: none; }
     }
   </style>
 </head>
@@ -542,13 +562,30 @@
         progress.appendChild(s);
       }
       const bars = Array.from(progress.querySelectorAll("span"));
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
       let index = 0;
+      let booted = false;
       function go(n) {
-        index = (n + total) % total;
-        slides.forEach((s, i) => s.classList.toggle("active", i === index));
+        const next = (n + total) % total;
+        const prev = index;
+        const skipAnim = !booted || reduceMotion.matches || next === prev;
+        slides.forEach((s) => s.classList.remove("from-left", "from-right", "leave-left", "leave-right"));
+        if (skipAnim) {
+          slides.forEach((s, i) => s.classList.toggle("active", i === next));
+        } else {
+          const forward = ((next - prev + total) % total) <= Math.floor(total / 2);
+          slides[prev].classList.remove("active");
+          slides[prev].classList.add(forward ? "leave-left" : "leave-right");
+          slides[next].classList.add(forward ? "from-right" : "from-left");
+          void slides[next].offsetWidth;
+          slides[next].classList.add("active");
+          slides[next].classList.remove("from-right", "from-left");
+        }
+        index = next;
         bars.forEach((b, i) => b.classList.toggle("on", i <= index));
         currentEl.textContent = String(index + 1);
         history.replaceState(null, "", "#" + (index + 1));
+        booted = true;
       }
       function fromHash() {
         const n = parseInt(location.hash.replace("#", ""), 10);
