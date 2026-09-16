@@ -166,6 +166,22 @@
       font-weight: 600; text-align: center; line-height: 1.3;
       display: flex; align-items: center; justify-content: center; min-height: 3.8rem;
     }
+    .photo-kit {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem;
+      width: 100%;
+    }
+    .photo-kit figure {
+      margin: 0; background: var(--bg-soft); border-radius: 14px;
+      overflow: hidden; box-shadow: var(--shadow);
+    }
+    .photo-kit img {
+      width: 100%; height: 15vh; object-fit: cover; display: block;
+    }
+    .photo-kit figcaption {
+      font-size: clamp(.72rem, 1.15vw, .9rem); font-weight: 600;
+      color: var(--accent-deep); text-align: center;
+      padding: .35rem .4rem .5rem;
+    }
 
     .legend {
       display: grid; grid-template-columns: 1fr 1fr; gap: .45rem .7rem;
@@ -211,7 +227,7 @@
     .wide { max-width: 52rem; }
 
     @media (max-width: 720px) {
-      .split, .quote-grid, .grid2, .grid3, .kit, .legend { grid-template-columns: 1fr; }
+      .split, .quote-grid, .grid2, .grid3, .kit, .legend, .photo-kit { grid-template-columns: 1fr; }
       .kit { grid-template-columns: 1fr 1fr; }
       .slide { overflow-y: auto; }
     }
@@ -321,21 +337,68 @@
         </div>
       </section>
 
-      <!-- 7 Linguagem -->
+      <!-- 7 Adaptar conteúdo -->
       <section class="slide" data-slide="7">
         <div class="blob blob-tr"></div>
         <div class="focus wide" style="align-items:stretch;text-align:left;">
-          <h2 style="text-align:center;">Linguagem que as crianças entendem</h2>
+          <h2 style="text-align:center;">Adaptar o conteúdo</h2>
           <div class="accent-line"></div>
+          <p class="mb" style="text-align:center;">A Palavra é a mesma. Muda o jeito de ensinar, para todos poderem participar.</p>
           <div class="grid2">
-            <div class="panel"><h3>Em vez de…</h3><p>“Jesus limpa o nosso coração sujo de pecado.”</p></div>
-            <div class="panel" style="background:var(--accent-soft);border:0;"><h3>Diga…</h3><p>“Às vezes erramos. Jesus nos perdoa e nos ajuda a fazer o bem — como quando pedimos desculpas a um amigo.”</p></div>
+            <div class="panel">
+              <h3>Linguagem</h3>
+              <p><strong>Em vez de:</strong> “Jesus limpa o nosso coração sujo de pecado.”</p>
+              <p class="mt"><strong>Diga:</strong> “Às vezes erramos. Jesus nos perdoa e nos ajuda a fazer o bem.”</p>
+            </div>
+            <div class="panel">
+              <h3>História e atividade</h3>
+              <ul class="clean">
+                <li>Uma ideia só, com figuras, gestos ou objetos.</li>
+                <li>Atividade em 1 passo; níveis diferentes, se precisar.</li>
+                <li>Aceite resposta com fala, gesto ou desenho.</li>
+              </ul>
+            </div>
           </div>
-          <p class="mt">Conte a história com ações, objetos e exemplos da vida real. Metáforas sem explicação confundem.</p>
         </div>
       </section>
 
-      <!-- 8 Ambiente -->
+      <!-- 8 Sensorial -->
+      <section class="slide" data-slide="8">
+        <div class="blob blob-bl"></div>
+        <div class="focus wide">
+          <h2>Objetos e brinquedos sensoriais</h2>
+          <div class="accent-line"></div>
+          <p class="mb">Ajudam a criança a se regular para participar — não são prêmio nem brinquedo livre o encontro todo.</p>
+          <div class="photo-kit">
+            <figure>
+              <img src="assets/sensory-fones.jpg" alt="Criança com fones" />
+              <figcaption>Fones antirruído</figcaption>
+            </figure>
+            <figure>
+              <img src="assets/sensory-almofada.jpg" alt="Almofada" />
+              <figcaption>Almofada de colo</figcaption>
+            </figure>
+            <figure>
+              <img src="assets/sensory-massinha.jpg" alt="Criança com massinha" />
+              <figcaption>Massinha</figcaption>
+            </figure>
+            <figure>
+              <img src="assets/sensory-textura.jpg" alt="Brinquedos de textura" />
+              <figcaption>Brinquedos de textura</figcaption>
+            </figure>
+            <figure>
+              <img src="assets/sensory-blocos.jpg" alt="Brinquedo de interesse" />
+              <figcaption>Objeto de interesse</figcaption>
+            </figure>
+            <figure>
+              <img src="assets/sensory-clay.jpg" alt="Assento flexível na sala" />
+              <figcaption>Assento flexível</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9 Ambiente -->
       <section class="slide" data-slide="8">
         <div class="blob blob-bl"></div>
         <div class="focus wide">
@@ -343,7 +406,7 @@
           <div class="accent-line"></div>
           <div class="grid3">
             <div class="panel"><h3>Ambiente</h3><p>Menos cartazes, volume mais baixo no momento de hinos, luz suave, assento flexível.</p></div>
-            <div class="panel"><h3>Kit mínimo</h3><p>Fones, fidgets silenciosos, massinha, cartão “preciso de pausa”, pictogramas (quadro de rotina).</p></div>
+            <div class="panel"><h3>Kit mínimo</h3><p>Deixe os objetos e brinquedos sensoriais à mão, silenciosos, combinados com a família.</p></div>
             <div class="panel"><h3>Cantinho</h3><p>Para se acalmar — não para brincar o tempo todo nem para castigar. A criança volta quando estiver pronta.</p></div>
           </div>
         </div>
@@ -460,7 +523,7 @@
     <nav class="nav" aria-label="Navegação">
       <a class="home" href="index.html" aria-label="Voltar ao início">Início</a>
       <button type="button" id="prev" aria-label="Anterior">‹</button>
-      <span class="counter"><span id="current">1</span> / <span id="total">14</span></span>
+      <span class="counter"><span id="current">1</span> / <span id="total">15</span></span>
       <button type="button" id="next" aria-label="Próximo">›</button>
     </nav>
     <p class="hint">← → · F tela cheia</p>
