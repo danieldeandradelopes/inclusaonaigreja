@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Acolher para ensinar — Reunião de Crianças (v2)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg-soft: #f7faf8;
+      --ink: #1e293b;
+      --muted: #64748b;
+      --accent: #5b8a72;
+      --accent-soft: #e8f2ec;
+      --accent-deep: #3f6b56;
+      --warm: #c4785a;
+      --line: #e2e8f0;
+      --font: "DM Sans", system-ui, sans-serif;
+      --display: "Fraunces", Georgia, serif;
+      --radius: 20px;
+      --shadow: 0 8px 28px rgba(30, 41, 59, 0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%; background: #0f172a; color: var(--ink);
+      font-family: var(--font); overflow: hidden;
+    }
+    .deck {
+      width: 100vw; height: 100vh; display: grid; place-items: center;
+      position: relative;
+    }
+    .stage {
+      width: min(100vw - 24px, calc((100vh - 24px) * 16 / 9));
+      height: min(100vh - 24px, calc((100vw - 24px) * 9 / 16));
+      position: relative; background: var(--bg); overflow: hidden;
+      border-radius: 16px; box-shadow: 0 25px 80px rgba(0,0,0,.45);
+    }
+
+    /* progress */
+    .progress {
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: var(--line); z-index: 30; display: flex;
+    }
+    .progress span {
+      flex: 1; height: 100%; background: transparent;
+      transition: background .25s ease;
+    }
+    .progress span.on { background: var(--accent); }
+
+    .slide {
+      position: absolute; inset: 0; padding: clamp(1.5rem, 4vw, 2.75rem);
+      display: none; opacity: 0; transition: opacity .28s ease;
+      overflow: hidden;
+    }
+    .slide.active { display: flex; flex-direction: column; opacity: 1; }
+
+    .blob {
+      position: absolute; border-radius: 50%; pointer-events: none; z-index: 0;
+      background: var(--accent-soft); opacity: .7;
+    }
+    .blob-tr { width: 42vmin; height: 42vmin; top: -18vmin; right: -14vmin; }
+    .blob-bl { width: 36vmin; height: 36vmin; bottom: -16vmin; left: -12vmin; }
+    .slide > *:not(.blob) { position: relative; z-index: 1; }
+
+    h1, h2, h3 { font-family: var(--display); line-height: 1.15; color: var(--ink); }
+    h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); color: var(--accent-deep); }
+    h2 { font-size: clamp(1.5rem, 3.2vw, 2.35rem); margin-bottom: .5rem; }
+    h3 { font-size: clamp(1.05rem, 2vw, 1.3rem); margin-bottom: .35rem; }
+    p, li { font-size: clamp(.95rem, 1.55vw, 1.12rem); line-height: 1.5; color: var(--muted); }
+    .accent-line {
+      width: 48px; height: 3px; background: var(--accent); border-radius: 2px;
+      margin: .55rem auto 1rem;
+    }
+    .accent-line.left { margin-left: 0; }
+
+    /* centered focus layout (like reuniao pais) */
+    .focus {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+      max-width: 42rem; margin: 0 auto; width: 100%;
+    }
+    .focus .illus {
+      width: min(42%, 280px); aspect-ratio: 1; border-radius: 24px;
+      object-fit: cover; margin-bottom: 1.1rem; box-shadow: var(--shadow);
+    }
+    .focus .icon-wrap {
+      width: 56px; height: 56px; border-radius: 50%; background: var(--accent-soft);
+      display: grid; place-items: center; margin: 0 auto .85rem;
+    }
+    .focus .icon-wrap img { width: 28px; height: 28px; }
+    .kicker {
+      font-size: .8rem; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: .35rem;
+    }
+
+    /* split */
+    .split {
+      flex: 1; display: grid; grid-template-columns: 1fr 1fr;
+      gap: clamp(1.2rem, 3vw, 2.5rem); align-items: center; min-height: 0;
+    }
+    .split .pic {
+      width: 100%; height: min(100%, 52vh); max-height: 420px;
+      border-radius: var(--radius); object-fit: cover; box-shadow: var(--shadow);
+    }
+    .split .copy { display: flex; flex-direction: column; justify-content: center; }
+
+    /* lists */
+    ul.clean { list-style: none; text-align: left; width: 100%; display: flex; flex-direction: column; gap: .55rem; }
+    ul.clean li { position: relative; padding-left: 1.15rem; }
+    ul.clean li::before {
+      content: ""; position: absolute; left: 0; top: .55em;
+      width: .4rem; height: .4rem; border-radius: 50%; background: var(--accent);
+    }
+    ol.steps { list-style: none; counter-reset: s; text-align: left; width: 100%; display: flex; flex-direction: column; gap: .45rem; }
+    ol.steps li {
+      counter-increment: s; display: grid; grid-template-columns: 2rem 1fr;
+      gap: .65rem; align-items: start;
+    }
+    ol.steps li::before {
+      content: counter(s); width: 2rem; height: 2rem; border-radius: 50%;
+      background: var(--accent); color: #fff; font-size: .85rem; font-weight: 700;
+      display: grid; place-items: center;
+    }
+
+    .panel {
+      background: var(--bg-soft); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: clamp(.9rem, 1.8vw, 1.25rem);
+      text-align: left;
+    }
+    .panel strong { color: var(--ink); }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; width: 100%; }
+    .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: .65rem; width: 100%; }
+    .chip-row { display: flex; flex-wrap: wrap; gap: .4rem; justify-content: center; margin-top: .7rem; }
+    .chip {
+      background: var(--accent-soft); color: var(--accent-deep);
+      border-radius: 999px; padding: .28rem .7rem; font-size: .82rem; font-weight: 600;
+    }
+
+    .quote-grid {
+      flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; min-height: 0;
+    }
+    .quote {
+      border-radius: var(--radius); overflow: hidden; position: relative;
+      background: center/cover no-repeat; display: flex; align-items: flex-end;
+      box-shadow: var(--shadow); min-height: 0;
+    }
+    .quote::after {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(15,23,42,.78), transparent 55%);
+    }
+    .quote p {
+      position: relative; z-index: 1; margin: .9rem; color: #fff;
+      font-weight: 600; font-size: clamp(.8rem, 1.25vw, .98rem); line-height: 1.35;
+    }
+
+    .kit {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: .5rem;
+      width: 100%; margin-top: .6rem;
+    }
+    .kit div {
+      background: var(--accent-soft); color: var(--accent-deep); border-radius: 14px;
+      padding: .65rem .45rem; font-size: clamp(.68rem, 1.05vw, .82rem);
+      font-weight: 600; text-align: center; line-height: 1.3;
+      display: flex; align-items: center; justify-content: center; min-height: 3.8rem;
+    }
+
+    .legend {
+      display: grid; grid-template-columns: 1fr 1fr; gap: .45rem .7rem;
+      text-align: left; margin-top: .8rem; width: 100%;
+      font-size: clamp(.72rem, 1.1vw, .85rem);
+    }
+    .legend strong { display: block; color: var(--ink); }
+
+    .nav {
+      position: absolute; bottom: .75rem; left: 50%; transform: translateX(-50%);
+      z-index: 40; display: flex; align-items: center; gap: .45rem;
+      background: rgba(255,255,255,.92); border: 1px solid var(--line);
+      backdrop-filter: blur(8px); padding: .3rem .45rem; border-radius: 999px;
+      box-shadow: var(--shadow); font-size: .82rem; color: var(--muted);
+    }
+    .nav button, .nav a.home {
+      appearance: none; border: 0; background: var(--accent-soft); color: var(--accent-deep);
+      width: 2rem; height: 2rem; border-radius: 50%; cursor: pointer; font-size: 1rem;
+      display: grid; place-items: center; text-decoration: none; font-weight: 700;
+    }
+    .nav a.home {
+      width: auto; padding: 0 .7rem; height: 2rem; font-size: .75rem; letter-spacing: .02em;
+    }
+    .nav button:hover, .nav a.home:hover { background: var(--accent); color: #fff; }
+    .nav .counter { min-width: 3.8rem; text-align: center; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--ink); }
+    .hint {
+      position: absolute; bottom: .85rem; right: 1rem; z-index: 40;
+      font-size: .68rem; color: rgba(100,116,139,.7); pointer-events: none;
+    }
+
+    .level {
+      text-align: left; width: 100%;
+      border-left: 4px solid var(--accent); background: var(--bg-soft);
+      border-radius: 0 16px 16px 0; padding: 1rem 1.15rem;
+    }
+    .level strong { color: var(--ink); display: block; margin-bottom: .3rem; }
+    .mark {
+      display: inline-block; background: var(--accent); color: #fff;
+      padding: .15rem .55rem; border-radius: 6px; font-size: .9em;
+    }
+    .mt { margin-top: .7rem; }
+    .mb { margin-bottom: .7rem; }
+    .wide { max-width: 52rem; }
+
+    @media (max-width: 720px) {
+      .split, .quote-grid, .grid2, .grid3, .kit, .legend { grid-template-columns: 1fr; }
+      .kit { grid-template-columns: 1fr 1fr; }
+      .slide { overflow-y: auto; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .slide, .progress span { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck">
+    <div class="stage" id="stage">
+      <div class="progress" id="progress" aria-hidden="true"></div>
+
+      <!-- 1 -->
+      <section class="slide active" data-slide="1">
+        <div class="blob blob-tr"></div><div class="blob blob-bl"></div>
+        <div class="focus">
+          <img class="illus" src="assets/kids-play.jpg" alt="Crianças aprendendo juntas" />
+          <p class="kicker">Reunião de Crianças · 3 a 11 anos</p>
+          <h1>Acolher para ensinar</h1>
+          <div class="accent-line"></div>
+          <p>Um guia prático para tias e voluntárias: como ajudar crianças com TEA, deficiência intelectual, TDAH, TOD e outras necessidades a prestar atenção, se regular e entender a Palavra.</p>
+        </div>
+      </section>
+
+      <!-- 2 -->
+      <section class="slide" data-slide="2">
+        <div class="blob blob-tr"></div>
+        <div class="focus">
+          <div class="icon-wrap"><img src="assets/icon-people.svg" alt="" /></div>
+          <h2>Para quem é esta palestra?</h2>
+          <div class="accent-line"></div>
+          <ul class="clean" style="max-width:34rem;">
+            <li>Voluntárias da Reunião de Crianças — não precisam ser professoras formadas.</li>
+            <li>Quem sente dificuldade com atenção, comportamento e compreensão na sala.</li>
+            <li>Quem quer acolher melhor as famílias e as crianças neurodivergentes.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 3 -->
+      <section class="slide" data-slide="3">
+        <div class="blob blob-bl"></div>
+        <div class="focus wide">
+          <h2>O desafio da nossa sala</h2>
+          <div class="accent-line"></div>
+          <div class="grid3">
+            <div class="panel" style="text-align:center;"><h3>Atenção</h3><p>Dispersão, inquietação, dificuldade de ficar na história.</p></div>
+            <div class="panel" style="text-align:center;"><h3>Comportamento</h3><p>Birras, oposição, crises, agressividade ou fuga.</p></div>
+            <div class="panel" style="text-align:center;"><h3>Compreensão</h3><p>Não entende metáforas, instruções longas ou a mensagem bíblica.</p></div>
+          </div>
+          <p class="mt">A boa notícia: pequenas mudanças de ambiente e de método ajudam a maioria das crianças — não só as com diagnóstico.</p>
+        </div>
+      </section>
+
+      <!-- 4 -->
+      <section class="slide" data-slide="4">
+        <div class="blob blob-tr"></div>
+        <div class="focus">
+          <div class="icon-wrap"><img src="assets/icon-heart.svg" alt="" /></div>
+          <h2>Princípio nº 1</h2>
+          <div class="accent-line"></div>
+          <p style="font-size:clamp(1.15rem,2.2vw,1.45rem);color:var(--ink);font-weight:600;">Comportamento difícil muitas vezes é comunicação.</p>
+          <p class="mt">Pode significar: “estou sobrecarregado”, “não entendi”, “preciso me mexer”, “quero atenção”, “quero sair da demanda”. Antes de punir, pergunte: <em>o que essa criança está tentando dizer?</em></p>
+        </div>
+      </section>
+
+      <!-- 5 -->
+      <section class="slide" data-slide="5">
+        <div class="blob blob-bl"></div>
+        <div class="focus wide">
+          <p class="kicker">Mapa rápido</p>
+          <h2>Quatro perfis que vemos na sala</h2>
+          <div class="accent-line"></div>
+          <div class="grid2">
+            <div class="panel"><h3>TEA (Autismo)</h3><p>Comunicação, interação social e sensorialidade diferentes. Precisa de previsibilidade e linguagem concreta.</p></div>
+            <div class="panel"><h3>Deficiência Intelectual</h3><p>Ritmo próprio de aprendizagem. Precisa de etapas menores, apoio visual e repetição.</p></div>
+            <div class="panel"><h3>TDAH</h3><p>Atenção e impulso desafiados. Precisa de atividades curtas, movimento e feedback imediato.</p></div>
+            <div class="panel"><h3>TOD</h3><p>Oposição e irritabilidade frequentes. Precisa de limites claros, escolhas e reforço do que está certo.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6 TEA -->
+      <section class="slide" data-slide="6">
+        <div class="blob blob-tr"></div>
+        <div class="split">
+          <img class="pic" src="assets/calm-hands.jpg" alt="Ambiente calmo" />
+          <div class="copy">
+            <p class="kicker">TEA</p>
+            <h2>O que você pode observar</h2>
+            <div class="accent-line left"></div>
+            <ul class="clean">
+              <li>Evita olhar, demora a responder ou não fala.</li>
+              <li>Repete sons, movimentos ou frases.</li>
+              <li>Cobre os ouvidos, irrita-se com luz ou barulho.</li>
+              <li>Resiste a mudanças de atividade.</li>
+              <li>Entende melhor com imagens do que só com fala.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7 TEA fazer -->
+      <section class="slide" data-slide="7">
+        <div class="blob blob-bl"></div>
+        <div class="focus wide" style="align-items:stretch;text-align:left;">
+          <h2 style="text-align:center;">TEA — o que funciona na prática</h2>
+          <div class="accent-line"></div>
+          <ol class="steps">
+            <li><span><strong>Mesma ordem toda semana</strong> (ex.: louvor → história → atividade → lanche → oração).</span></li>
+            <li><span><strong>Quadro visual</strong> com pictogramas na parede, na altura dos olhos.</span></li>
+            <li><span><strong>Avisar antes de mudar</strong>: “Daqui a 2 musiquinhas vamos para a historinha.”</span></li>
+            <li><span><strong>Falar curto e concreto</strong>: evitar “Jesus limpa o coração” sem explicar com exemplos.</span></li>
+            <li><span><strong>Usar o interesse da criança</strong> (carros, dinossauros, música) para conectar a mensagem.</span></li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- 8 DI -->
+      <section class="slide" data-slide="8">
+        <div class="blob blob-tr"></div>
+        <div class="split">
+          <div class="copy">
+            <p class="kicker">Deficiência Intelectual</p>
+            <h2>Ritmo próprio, mesma dignidade</h2>
+            <div class="accent-line left"></div>
+            <ul class="clean">
+              <li>Pode precisar de mais tempo para entender e responder.</li>
+              <li>Aprende melhor com objetos, gestos e repetição.</li>
+              <li>Uma ideia por vez — não vários comandos juntos.</li>
+              <li>Celebrar pequenas vitórias fortalece a participação.</li>
+            </ul>
+          </div>
+          <img class="pic" src="assets/learning-joy.jpg" alt="Aprendizagem alegre" />
+        </div>
+      </section>
+
+      <!-- 9 DI fazer -->
+      <section class="slide" data-slide="9">
+        <div class="blob blob-bl"></div>
+        <div class="focus wide" style="align-items:stretch;text-align:left;">
+          <h2 style="text-align:center;">DI — adaptações simples</h2>
+          <div class="accent-line"></div>
+          <div class="grid2">
+            <div class="panel"><h3>Material</h3><ul class="clean"><li>Folha com poucas imagens e letra grande.</li><li>Uma pergunta por vez.</li><li>Mostrar o exemplo pronto.</li></ul></div>
+            <div class="panel"><h3>Ensino</h3><ul class="clean"><li>Repetir a ideia central 3 vezes.</li><li>Associar à vida da criança (“ajudar o amigo”).</li><li>Permitir resposta com gesto ou desenho.</li></ul></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10 TDAH -->
+      <section class="slide" data-slide="10">
+        <div class="blob blob-tr"></div>
+        <div class="focus wide" style="align-items:stretch;text-align:left;">
+          <h2 style="text-align:center;">TDAH — atenção e movimento</h2>
+          <div class="accent-line"></div>
+          <ul class="clean">
+            <li><strong>Blocos curtos:</strong> 5–8 minutos de história + movimento + atividade.</li>
+            <li><strong>Sentar perto da tia</strong> e longe da porta/janela quando possível.</li>
+            <li><strong>Pausas ativas:</strong> levantar, entregar material, fazer gestos da música.</li>
+            <li><strong>Instrução em 1 frase:</strong> “Agora pinte só o coração.”</li>
+            <li><strong>Elogio imediato</strong> quando prestar atenção 1 minuto — não espere a aula toda.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 11 TOD -->
+      <section class="slide" data-slide="11">
+        <div class="blob blob-bl"></div>
+        <div class="focus wide" style="align-items:stretch;text-align:left;">
+          <h2 style="text-align:center;">TOD — oposição sem guerra</h2>
+          <div class="accent-line"></div>
+          <div class="grid2">
+            <div class="panel"><h3>Faça</h3><ul class="clean"><li>Regras visíveis e poucas (3 a 5).</li><li>Ofereça 2 escolhas: “Quer sentar no tapete ou na cadeira?”</li><li>Elogie o comportamento certo na hora.</li><li>Fale baixo, firme e calmo.</li></ul></div>
+            <div class="panel"><h3>Evite</h3><ul class="clean"><li>Confrontar na frente da turma.</li><li>Discussão longa no auge da raiva.</li><li>Punição pública ou humilhação.</li><li>Pedidos vagos: “Se comporta!”</li></ul></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 12 Universal -->
+      <section class="slide" data-slide="12">
+        <div class="blob blob-tr"></div>
+        <div class="focus">
+          <div class="icon-wrap"><img src="assets/icon-hands.svg" alt="" /></div>
+          <h2>Desenho universal</h2>
+          <div class="accent-line"></div>
+          <p>O que ajuda a criança com TEA, DI, TDAH ou TOD geralmente ajuda <strong>toda a sala</strong>: rotina clara, visual, atividades curtas, tom calmo e espaço para se regular. Comece por aí — não espere ter um diagnóstico.</p>
+        </div>
+      </section>
+
+      <!-- 13 Rotina -->
+      <section class="slide" data-slide="13">
+        <div class="blob blob-bl"></div>
+        <div class="split">
+          <img class="pic" src="assets/notes-plan.jpg" alt="Planejamento visual" />
+          <div class="copy">
+            <h2>Rotina visual fixa</h2>
+            <div class="accent-line left"></div>
+            <p class="mb">Monte cartões com imagens na mesma ordem toda semana:</p>
+            <p style="color:var(--accent-deep);font-weight:700;">Louvor → Oração → História → Atividade → Lanche → Encerramento</p>
+            <p class="mt">Tire o cartão ou marque o que já passou. A criança “vê” o tempo e a ansiedade diminui.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 14 Linguagem -->
+      <section class="slide" data-slide="14">
+        <div class="blob blob-tr"></div>
+        <div class="focus wide" style="align-items:stretch;text-align:left;">
+          <h2 style="text-align:center;">Linguagem que as crianças entendem</h2>
+          <div class="accent-line"></div>
+          <div class="grid2">
+            <div class="panel"><h3>Em vez de…</h3><p>“Jesus limpa o nosso coração sujo de pecado.”</p></div>
+            <div class="panel" style="background:var(--accent-soft);border:0;"><h3>Diga…</h3><p>“Às vezes erramos. Jesus nos perdoa e nos ajuda a fazer o bem — como quando pedimos desculpas a um amigo.”</p></div>
+          </div>
+          <p class="mt">Metáforas sem explicação confundem TEA e DI. Conte a história com ações, objetos e exemplos da vida real.</p>
+        </div>
+      </section>
+
+      <!-- 15 Blocos -->
+      <section class="slide" data-slide="15">
+        <div class="blob blob-bl"></div>
+        <div class="focus">
+          <h2>Aula em pedacinhos</h2>
+          <div class="accent-line"></div>
+          <ul class="clean" style="max-width:34rem;">
+            <li>História bíblica: <strong>5 a 8 minutos</strong> (não 20).</li>
+            <li>Depois: música com gestos ou brincadeira rápida.</li>
+            <li>Depois: atividade com 1 objetivo (“colar o peixinho”).</li>
+            <li>Se dispersar: pause, respire com a turma, retome com o quadro visual.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 16 Visual -->
+      <section class="slide" data-slide="16">
+        <div class="blob blob-tr"></div>
+        <div class="focus wide" style="align-items:stretch;text-align:left;">
+          <h2 style="text-align:center;">Apoio visual na história</h2>
+          <div class="accent-line"></div>
+          <ol class="steps">
+            <li><span>Figuras grandes ou fantoches enquanto conta.</span></li>
+            <li><span>Cartões “primeiro / depois” (ex.: primeiro ouvir → depois brincar).</span></li>
+            <li><span>Repetir a frase-chave da lição 3 vezes.</span></li>
+            <li><span>Deixar a criança apontar a figura em vez de só falar.</span></li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- 17 Sensorial -->
+      <section class="slide" data-slide="17">
+        <div class="blob blob-bl"></div>
+        <div class="split">
+          <div class="copy">
+            <h2>Ambiente que acalma</h2>
+            <div class="accent-line left"></div>
+            <ul class="clean">
+              <li>Menos cartazes na parede (menos “barulho visual”).</li>
+              <li>Volume do louvor mais baixo em alguns momentos.</li>
+              <li>Luz mais suave se possível.</li>
+              <li>Assentos flexíveis: tapete, almofada, ficar em pé no fundo.</li>
+            </ul>
+          </div>
+          <img class="pic" src="assets/quiet-space.jpg" alt="Espaço calmo" />
+        </div>
+      </section>
+
+      <!-- 18 Kit -->
+      <section class="slide" data-slide="18">
+        <div class="blob blob-tr"></div>
+        <div class="focus wide">
+          <h2>Kit da sala (barato e eficaz)</h2>
+          <div class="accent-line"></div>
+          <div class="kit">
+            <div>Fones antirruído</div>
+            <div>Bolinhas / fidgets silenciosos</div>
+            <div>Massinha</div>
+            <div>Almofada de colo</div>
+            <div>Timer visual</div>
+            <div>Cartões de rotina</div>
+            <div>Cartão “preciso de pausa”</div>
+            <div>Garrafa d’água</div>
+            <div>Objeto de interesse (combinado com a família)</div>
+            <div>Lista rápida da criança (gatilhos)</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 19 Cantinho -->
+      <section class="slide" data-slide="19">
+        <div class="blob blob-bl"></div>
+        <div class="focus">
+          <img class="illus" src="assets/sensory-soft.jpg" alt="Cantinho calmo" />
+          <h2>Cantinho de regulação</h2>
+          <div class="accent-line"></div>
+          <p>Um canto da sala (ou corredor) com almofada, kit sensorial e regra clara: <strong>“É para se acalmar, não para brincar o tempo todo.”</strong> A criança pode voltar quando estiver pronta. Ensine a turma que isso é cuidado, não castigo.</p>
+        </div>
+      </section>
+
+      <!-- 20 Palavra -->
+      <section class="slide" data-slide="20">
+        <div class="blob blob-tr"></div>
+        <div class="focus wide" style="align-items:stretch;text-align:left;">
+          <h2 style="text-align:center;">Ensinar a Palavra de forma didática</h2>
+          <div class="accent-line"></div>
+          <ul class="clean">
+            <li><strong>1 ideia só</strong> por domingo (ex.: “Deus cuida de mim”).</li>
+            <li>História → ação concreta → pergunta simples.</li>
+            <li>Gestos, música e objetos (barco, pão, luz) fazem a Bíblia “entrar”.</li>
+            <li>Não exija quietude perfeita para “provar” que aprendeu — observe participação no nível dela.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 21 Roteiro -->
+      <section class="slide" data-slide="21">
+        <div class="blob blob-bl"></div>
+        <div class="focus wide">
+          <h2>Exemplo de encontro (45–60 min)</h2>
+          <div class="accent-line"></div>
+          <div class="grid2">
+            <div class="panel"><p><strong>0–8 min</strong> — Acolhida + quadro visual + louvor com gestos</p></div>
+            <div class="panel"><p><strong>8–16 min</strong> — História bíblica curta + figuras</p></div>
+            <div class="panel"><p><strong>16–22 min</strong> — Movimento / música / brincadeira ligada à lição</p></div>
+            <div class="panel"><p><strong>22–35 min</strong> — Atividade em 1 passo (colar, desenhar, montar)</p></div>
+            <div class="panel"><p><strong>35–45 min</strong> — Lanche / conversa livre supervisionada</p></div>
+            <div class="panel"><p><strong>Final</strong> — Oração curta + lembrar a frase da semana</p></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 22 Buddy -->
+      <section class="slide" data-slide="22">
+        <div class="blob blob-tr"></div>
+        <div class="split">
+          <img class="pic" src="assets/support-group.jpg" alt="Voluntários apoiando" />
+          <div class="copy">
+            <h2>Voluntário de apoio (buddy)</h2>
+            <div class="accent-line left"></div>
+            <p>Uma tia fixa perto da criança que precisa: ajuda a seguir a rotina, oferece o kit, acompanha ao cantinho e garante participação — <strong>sem substituir os pais</strong> e sem isolar a criança do grupo.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 23 Família -->
+      <section class="slide" data-slide="23">
+        <div class="blob blob-bl"></div>
+        <div class="focus wide" style="align-items:stretch;text-align:left;">
+          <h2 style="text-align:center;">Fale com a família (5 minutos)</h2>
+          <div class="accent-line"></div>
+          <p class="mb" style="text-align:center;">Antes ou depois da reunião, pergunte com carinho:</p>
+          <ol class="steps">
+            <li><span>O que ajuda sua criança a se sentir segura?</span></li>
+            <li><span>Quais sons, luzes ou situações incomodam?</span></li>
+            <li><span>Como ela se comunica (fala, gestos, cartões)?</span></li>
+            <li><span>O que costuma acalmar em casa?</span></li>
+            <li><span>Há algo que não devemos fazer?</span></li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- 24 Não fazer -->
+      <section class="slide" data-slide="24">
+        <div class="blob blob-tr"></div>
+        <div class="focus wide" style="align-items:stretch;text-align:left;">
+          <h2 style="text-align:center;">O que não fazer</h2>
+          <div class="accent-line"></div>
+          <ul class="clean">
+            <li>Gritar, constranger ou comparar com outras crianças.</li>
+            <li>Tratar estereotipia ou movimento como “falta de respeito”.</li>
+            <li>Forçar abraço, olhar nos olhos ou ficar sentado “de qualquer jeito”.</li>
+            <li>Mudar a programação sem avisar (ex.: visita surpresa barulhenta).</li>
+            <li>Assumir que “não quer aprender” — pode ser sobrecarga ou não compreensão.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 25 Crise -->
+      <section class="slide" data-slide="25">
+        <div class="blob blob-bl"></div>
+        <div class="focus wide" style="align-items:stretch;text-align:left;">
+          <h2 style="text-align:center;">Se houver crise / sobrecarga</h2>
+          <div class="accent-line"></div>
+          <ol class="steps">
+            <li><span>Fale baixo. Não grite.</span></li>
+            <li><span>Reduza estímulos (luz, som, pessoas em volta).</span></li>
+            <li><span>Leve ao cantinho ou local mais quieto.</span></li>
+            <li><span>Tire objetos perigosos; ofereça o kit.</span></li>
+            <li><span>Espere a regulação — converse depois, não no auge.</span></li>
+            <li><span>Avise os pais com respeito, sem julgar.</span></li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- 26 TOD reforço -->
+      <section class="slide" data-slide="26">
+        <div class="blob blob-tr"></div>
+        <div class="focus">
+          <h2>Reforço positivo (vale ouro)</h2>
+          <div class="accent-line"></div>
+          <p>Em vez de só apontar o erro, descreva o certo: <strong>“Obrigada por sentar quando pedi.”</strong> Elogio específico + imediato muda mais do que sermão longo. Com TOD, isso reduz a luta de poder.</p>
+        </div>
+      </section>
+
+      <!-- 27 Checklist -->
+      <section class="slide" data-slide="27">
+        <div class="blob blob-bl"></div>
+        <div class="focus wide" style="align-items:stretch;text-align:left;">
+          <h2 style="text-align:center;">Checklist antes da reunião</h2>
+          <div class="accent-line"></div>
+          <ul class="clean">
+            <li>Quadro visual montado e na mesma ordem.</li>
+            <li>Kit sensorial completo e acessível.</li>
+            <li>História ensaiada em linguagem concreta (1 ideia).</li>
+            <li>Atividade com 1 comando só.</li>
+            <li>Voluntário de apoio combinado, se necessário.</li>
+            <li>Saber quem são as crianças que precisam de adaptação (com a família).</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 28 Comece -->
+      <section class="slide" data-slide="28">
+        <div class="blob blob-tr"></div>
+        <div class="focus">
+          <div class="icon-wrap"><img src="assets/icon-heart.svg" alt="" /></div>
+          <h2>Comece nesta semana</h2>
+          <div class="accent-line"></div>
+          <ol class="steps" style="max-width:32rem;">
+            <li><span>Faça o quadro visual (papel e fita já bastam).</span></li>
+            <li><span>Monte um kit mínimo: fones + 2 fidgets + massinha.</span></li>
+            <li><span>Converse 5 minutos com 1 família.</span></li>
+            <li><span>Encurte a história e repita a frase-chave.</span></li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- 29 -->
+      <section class="slide" data-slide="29">
+        <div class="blob blob-bl"></div>
+        <div class="focus">
+          <img class="illus" src="assets/family-welcome.jpg" alt="Famílias acolhidas" />
+          <h2>Vocês não estão sozinhas</h2>
+          <div class="accent-line"></div>
+          <p>Inclusão na Reunião de Crianças não exige diploma — exige <strong>curiosidade, paciência e parceria com as famílias</strong>. Cada criança que se sente segura aprende melhor a Palavra. Esse é o nosso culto de acolhimento.</p>
+        </div>
+      </section>
+
+      <!-- 30 Encerramento -->
+      <section class="slide" data-slide="30">
+        <div class="blob blob-tr"></div><div class="blob blob-bl"></div>
+        <div class="focus">
+          <p class="kicker">Lembrete final</p>
+          <h1 style="font-size:clamp(1.8rem,4vw,2.8rem);">Previsibilidade.<br/>Clareza.<br/>Calma.</h1>
+          <div class="accent-line"></div>
+          <p>Essas três palavras já transformam a sala. O restante a gente constrói juntos, domingo após domingo.</p>
+        </div>
+      </section>
+
+    </div>
+
+    <nav class="nav" aria-label="Navegação">
+      <a class="home" href="index.html" aria-label="Voltar ao início">Início</a>
+      <button type="button" id="prev" aria-label="Anterior">‹</button>
+      <span class="counter"><span id="current">1</span> / <span id="total">30</span></span>
+      <button type="button" id="next" aria-label="Próximo">›</button>
+    </nav>
+    <p class="hint">← → · F tela cheia</p>
+  </div>
+
+  <script>
+    (function () {
+      const slides = Array.from(document.querySelectorAll(".slide"));
+      const total = slides.length;
+      const currentEl = document.getElementById("current");
+      const progress = document.getElementById("progress");
+      document.getElementById("total").textContent = String(total);
+      progress.innerHTML = "";
+      for (let i = 0; i < total; i++) {
+        const s = document.createElement("span");
+        progress.appendChild(s);
+      }
+      const bars = Array.from(progress.querySelectorAll("span"));
+      let index = 0;
+      function go(n) {
+        index = (n + total) % total;
+        slides.forEach((s, i) => s.classList.toggle("active", i === index));
+        bars.forEach((b, i) => b.classList.toggle("on", i <= index));
+        currentEl.textContent = String(index + 1);
+        history.replaceState(null, "", "#" + (index + 1));
+      }
+      function fromHash() {
+        const n = parseInt(location.hash.replace("#", ""), 10);
+        if (n >= 1 && n <= total) go(n - 1); else go(0);
+      }
+      document.getElementById("prev").addEventListener("click", () => go(index - 1));
+      document.getElementById("next").addEventListener("click", () => go(index + 1));
+      document.addEventListener("keydown", (e) => {
+        if (["ArrowRight","PageDown"," "].includes(e.key)) { e.preventDefault(); go(index + 1); }
+        else if (["ArrowLeft","PageUp"].includes(e.key)) { e.preventDefault(); go(index - 1); }
+        else if (e.key === "Home") go(0);
+        else if (e.key === "End") go(total - 1);
+        else if (e.key === "f" || e.key === "F") {
+          if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+          else document.exitFullscreen?.();
+        }
+      });
+      let touchX = null;
+      document.getElementById("stage").addEventListener("touchstart", (e) => { touchX = e.changedTouches[0].screenX; }, { passive: true });
+      document.getElementById("stage").addEventListener("touchend", (e) => {
+        if (touchX == null) return;
+        const dx = e.changedTouches[0].screenX - touchX;
+        if (Math.abs(dx) > 50) go(index + (dx < 0 ? 1 : -1));
+        touchX = null;
+      }, { passive: true });
+      document.getElementById("stage").addEventListener("click", (e) => {
+        if (e.target.closest("button, a, .nav")) return;
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        if (x > rect.width * 0.66) go(index + 1);
+        else if (x < rect.width * 0.33) go(index - 1);
+      });
+      window.addEventListener("hashchange", fromHash);
+      fromHash();
+    })();
+  </script>
+</body>
+</html>
+

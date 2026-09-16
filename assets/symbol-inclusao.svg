@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Símbolo da inclusão">
+  <circle cx="100" cy="100" r="88" fill="none" stroke="#2F5D6F" stroke-width="5"/>
+  <circle cx="100" cy="22" r="4.5" fill="#C4785A"/>
+  <circle cx="100" cy="178" r="4.5" fill="#C4785A"/>
+  <circle cx="22" cy="100" r="4.5" fill="#C4785A"/>
+  <circle cx="178" cy="100" r="4.5" fill="#C4785A"/>
+  <circle cx="45" cy="45" r="4" fill="#2F5D6F"/>
+  <circle cx="155" cy="45" r="4" fill="#2F5D6F"/>
+  <circle cx="45" cy="155" r="4" fill="#2F5D6F"/>
+  <circle cx="155" cy="155" r="4" fill="#2F5D6F"/>
+  <circle cx="100" cy="70" r="15" fill="#2F5D6F"/>
+  <path d="M70 118c8-20 20-30 30-30s22 10 30 30c4 10 6 26 6 38H64c0-12 2-28 6-38z" fill="#2F5D6F"/>
+  <path d="M74 110 L52 128 M126 110 L148 128 M80 148 L62 166 M120 148 L138 166" stroke="#2F5D6F" stroke-width="7" stroke-linecap="round" fill="none"/>
+</svg>
